@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: ehc
+      POSTGRES_PASSWORD: local-dev-password
+      POSTGRES_DB: elitehealthclub
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./scripts/init-test-db.sql:/docker-entrypoint-initdb.d/init-test-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ehc -d elitehealthclub"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  api:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://ehc:local-dev-password@db:5432/elitehealthclub
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  postgres_data:

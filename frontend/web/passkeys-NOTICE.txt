@@ -1,0 +1,5 @@
+Passkeys browser bundle, version 2.4.0
+Source: https://github.com/corbado/flutter-passkeys/releases/download/2.4.0/bundle.js
+Project: https://github.com/corbado/flutter-passkeys
+License: MIT; see passkeys-LICENSE.txt and notices within passkeys-bundle.js.
+Loaded before Flutter as required by the passkeys_web plugin used by Clerk.
